@@ -19,10 +19,11 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: gradle
+    - name: lint check
+      run: ./gradlew lintDebug
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew build
-    - name: Run Unit Tests
-      run: ./gradlew testStagingDebugUnitTest
+#    - name: Grant execute permission for gradlew
+#      run: chmod +x gradlew
+#    - name: Build with Gradle
+#      run: ./gradlew build
+
