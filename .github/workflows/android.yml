@@ -40,7 +40,7 @@ jobs:
       - name: lint check
         run: ./gradlew lintDebug
 
-  unit-test:
+  unit-tests:
     needs: [ lint-check ]
     runs-on: ubuntu-latest
     steps:
