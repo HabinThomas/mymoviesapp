@@ -7,7 +7,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the code
@@ -17,8 +17,22 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '11'
-          distribution: 'temurin'
-          cache: gradle
+      #            distribution: 'temurin'
+      #            cache: gradle
+      - name: Build with Gradle
+        run: ./gradlew build
+  lint-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v3
+
+      - name: set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+      #          distribution: 'temurin'
+      #          cache: gradle
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -26,11 +40,8 @@ jobs:
       - name: lint check
         run: ./gradlew lintDebug
 
-#      - name: Build with Gradle
-#        run: ./gradlew build
-
   unit-test:
-    needs: [ lint ]
+    needs: [ lint-check ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the code
@@ -48,21 +59,22 @@ jobs:
           name: unit_test_report
           path: app/build/reports/tests/testDebugUnitTest/
 
-  package:
-    needs: [ unit-test ]
+  generate-apk:
+    needs: [ build, lint-check, unit-tests ]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the code
         uses: actions/checkout@v3
+
       - name: set up JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
-          distribution: 'temurin'
-          cache: gradle
+      #          distribution: 'temurin'
+      #          cache: gradle
 
       - name: Build debug APK
-        uses: ./gradlew build
+        uses: ./gradlew assembleDebug --stacktrace
 
       - name: Upload Apk
         uses: actions/upload-artifact@v3
