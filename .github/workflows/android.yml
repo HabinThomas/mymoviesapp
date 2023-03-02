@@ -50,7 +50,6 @@ jobs:
 
   build:
     needs: [ unit-test ]
-    name: Generate APK
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the code
@@ -62,6 +61,8 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
           cache: gradle
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
 
       - name: Build debug APK
         uses: ./gradlew assembleDebug
