@@ -65,7 +65,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build debug APK
-        uses: ./gradlew assembleDebug
+        uses: ./gradlew assemble
 
       - name: Upload Apk
         uses: actions/upload-artifact@v3
