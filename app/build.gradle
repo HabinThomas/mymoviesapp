@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.firebase.appdistribution'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -21,6 +23,12 @@ android {
     }
 
     buildTypes {
+        debug {
+            firebaseAppDistribution {
+                appId ="1:304243810139:android:e46a7af4181269d617047e"
+                testers = "habin2795@gmail.com"
+            }
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
