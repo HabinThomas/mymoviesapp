@@ -76,16 +76,28 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - name: Build debug APK
-        uses: ./HabinThomas/mymoviesapp/gradlew assembleDebug --stacktrace
+      #      - name: Build debug APK
+      #        uses: ./gradlew assembleDebug --stacktrace
+      #
+      #
+      #      - name: Upload Apk
+      #        uses: actions/upload-artifact@v3
+      #        with:
+      #          name: MyMovieApp.apk
+      #          path: app/build/outputs/apk/debug/app-debug.apk
 
+      - name: Generate AAR and APK files
+        if: always()
+        run: ./gradlew assembleDebug
 
-      - name: Upload Apk
-        uses: actions/upload-artifact@v3
+      - name: Upload AAR files
+        if: always()
+        uses: actions/upload-artifact@v2
         with:
-          name: MyMovieApp.apk
-          path: app/build/outputs/apk/debug/app-debug.apk
-
+          name: artifacts.zip
+          path: |
+            app/build/outputs/apk/debug/app-debug.apk
+            dog_network/build/outputs/aar
 
 
 
